@@ -51,6 +51,7 @@ public class VoxelGame {
 				break;
 			}
 		}
+		
 		Display.setDisplayMode(displayMode);
 		Display.setTitle("Voxel Game");
 		Display.create();
@@ -67,6 +68,7 @@ public class VoxelGame {
 		GLU.gluPerspective(100.0f, aspect, 0.1f, 300.0f);
 		
 		glMatrixMode(GL_MODELVIEW);
+		glEnable(GL_DEPTH_TEST);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	}
 
