@@ -29,6 +29,41 @@ public class Chunk {
 	private int VBOTextureHandle;
 	private Texture texture;
 
+	public Chunk(int startX, int startY, int startZ) {
+		
+		try {
+			texture = TextureLoader.getTexture("PNG",
+					ResourceLoader.getResourceAsStream("terrain.png"));
+		} catch (Exception e) {
+			System.out.print("Constructor ERROR!");
+			System.out.println(e.getMessage());
+		}
+		r = new Random();
+		Blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+		for (int x = 0; x < CHUNK_SIZE; x++) {
+			for (int y = 0; y < CHUNK_SIZE; y++) {
+				for (int z = 0; z < CHUNK_SIZE; z++) {
+					if (r.nextFloat() > 0.7f) {
+						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
+					} else if (r.nextFloat() > 0.4f) {
+						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
+					} else if (r.nextFloat() > 0.2f) {
+						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
+					} else {
+						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Default);
+					}
+				}
+			}
+		}
+		VBOColorHandle = glGenBuffers();
+		VBOVertexHandle = glGenBuffers();
+		VBOTextureHandle= glGenBuffers();
+		StartX = startX;
+		StartY = startY;
+		StartZ = startZ;
+		rebuildMesh(startX, startY, startZ);
+	}
+
 	public void render() {
 		glPushMatrix();
 		glPushMatrix();
@@ -139,8 +174,8 @@ public class Chunk {
 	
 	public static float[] createTexCube(float x, float y, Block block) {
 		float offset = (1024f / 16) / 1024f;
-		switch (block.GetID()) {
-			case 1:
+//		switch (block.GetID()) {
+//			case 1:
 				return new float[] {
 						// BOTTOM QUAD(DOWN=+Y)
 						x + offset * 3, y + offset * 10,
@@ -172,45 +207,10 @@ public class Chunk {
 						x + offset * 4, y + offset * 0,
 						x + offset * 4, y + offset * 1,
 						x + offset * 3, y + offset * 1 };
-			case 2:
 				
 				
-		}
-		return null;
-	}
-
-	public Chunk(int startX, int startY, int startZ) {
-		
-		try {
-			texture = TextureLoader.getTexture("PNG",
-					ResourceLoader.getResourceAsStream("terrain.png"));
-		} catch (Exception e) {
-			System.out.print("ER-ROAR!");
-		}
-		r = new Random();
-		Blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-		for (int x = 0; x < CHUNK_SIZE; x++) {
-			for (int y = 0; y < CHUNK_SIZE; y++) {
-				for (int z = 0; z < CHUNK_SIZE; z++) {
-					if (r.nextFloat() > 0.7f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
-					} else if (r.nextFloat() > 0.4f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
-					} else if (r.nextFloat() > 0.2f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
-					} else {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Default);
-					}
-				}
-			}
-		}
-		VBOColorHandle = glGenBuffers();
-		VBOVertexHandle = glGenBuffers();
-		VBOTextureHandle= glGenBuffers();
-		StartX = startX;
-		StartY = startY;
-		StartZ = startZ;
-		rebuildMesh(startX, startY, startZ);
+//		}
+//		return null;
 	}
 }
 

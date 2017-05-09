@@ -32,10 +32,11 @@ public class VoxelGame {
 		try {
 			createWindow();
 			initGL();
-			fp.gameLoop(); // render();
+			fp.gameLoop();
 		} catch (Exception e) {
 			System.out.println("ERROR!!!");
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
