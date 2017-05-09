@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package voxelgame;
+package groupVoxelGame;
 
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.opengl.*;
 
 /**
  *
@@ -37,7 +36,7 @@ public class VoxelGame {
         Display.setFullscreen(false);
 
         Display.setDisplayMode(new DisplayMode(640, 480));
-        Display.setTitle("Program 2");
+        Display.setTitle("Voxel Game");
         Display.create();
     }
     
