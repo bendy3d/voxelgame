@@ -15,7 +15,7 @@ import org.lwjgl.util.glu.GLU;
  */
 public class VoxelGame {
 
-	private FPCameraController fp = new FPCameraController(0, 0, 0);
+	private FPCameraController fp;
 	private DisplayMode displayMode;
 
 	/**
@@ -28,6 +28,7 @@ public class VoxelGame {
 	}
 
 	private void start() {
+		fp  = new FPCameraController(30, 30, 50);
 		try {
 			createWindow();
 			initGL();
@@ -50,7 +51,7 @@ public class VoxelGame {
 				break;
 			}
 		}
-		Display.setDisplayMode(displayMode); Display.setTitle("Hey Mom! I am using”+ “OpenGL!!!");
+		Display.setDisplayMode(displayMode);
 		Display.setTitle("Voxel Game");
 		Display.create();
 		}
@@ -61,8 +62,9 @@ public class VoxelGame {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
+		float aspect = displayMode.getWidth()/displayMode.getHeight();
 
-		GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/displayMode.getHeight(), 0.1f, 300.0f);
+		GLU.gluPerspective(100.0f, aspect, 0.1f, 300.0f);
 		
 		glMatrixMode(GL_MODELVIEW);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
