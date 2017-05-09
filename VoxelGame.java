@@ -67,8 +67,8 @@ public class VoxelGame {
 
 		GLU.gluPerspective(100.0f, aspect, 0.1f, 300.0f);
 		
-		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_DEPTH_TEST);
+		glMatrixMode(GL_MODELVIEW);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	}
 
