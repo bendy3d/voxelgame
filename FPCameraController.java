@@ -98,8 +98,8 @@ public class FPCameraController {
 		float dt = 0.0f; // length of frame
 		float lastTime = 0.0f; // when the last frame was
 		long time = 0;
-		float mouseSensitivity = 0.09f;
-		float movementSpeed = .35f;
+		float mouseSensitivity = 0.10f;
+		float movementSpeed = .33f;
 		// hide the mouse
 		Mouse.setGrabbed(true);
 
@@ -117,7 +117,7 @@ public class FPCameraController {
 			camera.pitch(dy * mouseSensitivity);
 
 			// when passing in the distance to move
-			// we times the movementSpeedwith dt this is a time scale
+			// we times the movementSpeed with dt this is a time scale
 			// so if its a slow frame u move more then a fast frame
 			// so on a slow computer you move just as fast as on a fast computer
 
@@ -142,11 +142,11 @@ public class FPCameraController {
 				camera.moveUp(movementSpeed);
 
 			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 				camera.moveDown(movementSpeed);
 			}
 
-			// set the modelviewmatrix back to the identity
+			// set the model view matrix back to the identity
 			glLoadIdentity();
 			// look through the camera before you draw anything
 			camera.lookThrough();
@@ -162,12 +162,113 @@ public class FPCameraController {
 
 	private void render() {
 		try {
+
 			glBegin(GL_QUADS);
-			glColor3f(1.0f, 0.0f, 1.0f);
+			// Top
+			glColor3f(0.0f, 0.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			// Bottom
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			// Front
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			// Back
+			glColor3f(1.0f, 1.0f, 0.0f);
 			glVertex3f(1.0f, -1.0f, -1.0f);
 			glVertex3f(-1.0f, -1.0f, -1.0f);
 			glVertex3f(-1.0f, 1.0f, -1.0f);
 			glVertex3f(1.0f, 1.0f, -1.0f);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			// Left
+			glColor3f(0.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			// Right
+			glColor3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glEnd();
+			
+			glBegin(GL_LINE_LOOP);
+			// Top
+			glColor3f(0.0f, 0.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+			// Bottom
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+			// Front
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+			// Back
+			glColor3f(1.0f, 1.0f, 0.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+			// Left
+			glColor3f(0.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+			// Right
+			glColor3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
 			glEnd();
 		} catch (Exception e) {
 		}

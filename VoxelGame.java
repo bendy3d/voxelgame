@@ -7,6 +7,7 @@ package groupVoxelGame;
 
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.util.glu.GLU;
 
 /**
  *
@@ -14,105 +15,57 @@ import org.lwjgl.opengl.*;
  */
 public class VoxelGame {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        VoxelGame vg = new VoxelGame();
-        vg.start();
-    }
+	private FPCameraController fp = new FPCameraController(0, 0, 0);
+	private DisplayMode displayMode;
 
-    private void start() {
-        try {
-            createWindow();
-            initGL();
-            render();
-        } catch (Exception e) {
-        
-        }
-    }
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
+	public static void main(String[] args) {
+		VoxelGame vg = new VoxelGame();
+		vg.start();
+	}
 
-    private void createWindow() throws Exception{
-        Display.setFullscreen(false);
+	private void start() {
+		try {
+			createWindow();
+			initGL();
+			fp.gameLoop(); // render();
+		} catch (Exception e) {
+			System.out.println("ERROR!!!");
+			System.out.println(e.getMessage());
+		}
+	}
 
-        Display.setDisplayMode(new DisplayMode(640, 480));
-        Display.setTitle("Voxel Game");
-        Display.create();
-    }
-    
-    private void initGL() {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	private void createWindow() throws Exception {
+		Display.setFullscreen(false);
 
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
+		DisplayMode d[] = Display.getAvailableDisplayModes();
+		for (int i= 0; i< d.length; i++) {
+			if (d[i].getWidth() == 640
+					&& d[i].getHeight() == 480
+					&& d[i].getBitsPerPixel() == 32) {
+				displayMode= d[i];
+				break;
+			}
+		}
+		Display.setDisplayMode(displayMode); Display.setTitle("Hey Mom! I am using”+ “OpenGL!!!");
+		Display.setTitle("Voxel Game");
+		Display.create();
+		}
+	
 
-        glOrtho(-320, 320, -240, 240, 12, -12);
-        glMatrixMode(GL_MODELVIEW);
-        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    }
-    
-    private void render() {
-        
-        while (!Display.isCloseRequested()) {
-            try{
-                glBegin(GL_LINE_LOOP); 
-                //Top
-                glColor3f(0.0f,0.0f,1.0f); 
-                glVertex3f( 10.0f, 10.0f,-10.0f); 
-                glVertex3f(-10.0f, 10.0f,-10.0f); 
-                glVertex3f(-10.0f, 10.0f, 10.0f); 
-                glVertex3f( 10.0f, 10.0f, 10.0f); 
-                glEnd();
-                
-                glBegin(GL_LINE_LOOP);
-                //Bottom
-                glColor3f(1.0f, 0.0f, 0.0f);
-                glVertex3f( 10.0f,-10.0f, 10.0f); 
-                glVertex3f(-10.0f,-10.0f, 10.0f); 
-                glVertex3f(-10.0f,-10.0f,-10.0f); 
-                glVertex3f( 10.0f,-10.0f,-10.0f);
-                glEnd();
-                
-                glBegin(GL_LINE_LOOP);
-                //Front
-                glColor3f(0.0f, 1.0f, 0.0f);
-                glVertex3f( 10.0f, 10.0f, 10.0f); 
-                glVertex3f(-10.0f, 10.0f, 10.0f); 
-                glVertex3f(-10.0f,-10.0f, 10.0f); 
-                glVertex3f( 10.0f,-10.0f, 10.0f);
-                glEnd();
-                
-                glBegin(GL_LINE_LOOP);
-                //Back
-                glColor3f(1.0f, 1.0f, 0.0f);
-                glVertex3f( 10.0f,-10.0f,-10.0f); 
-                glVertex3f(-10.0f,-10.0f,-10.0f); 
-                glVertex3f(-10.0f, 10.0f,-10.0f); 
-                glVertex3f( 10.0f, 10.0f,-10.0f);
-                glEnd();
-                
-                glBegin(GL_LINE_LOOP);
-                //Left
-                glColor3f(0.0f, 1.0f, 1.0f);
-                glVertex3f(-10.0f, 10.0f, 10.0f); 
-                glVertex3f(-10.0f, 10.0f,-10.0f); 
-                glVertex3f(-10.0f,-10.0f,-10.0f); 
-                glVertex3f(-10.0f,-10.0f, 10.0f);
-                glEnd(); 
-                
-                glBegin(GL_LINE_LOOP);
-                //Right
-                glColor3f(1.0f, 1.0f, 1.0f);
-                glVertex3f( 10.0f, 10.0f,-10.0f); 
-                glVertex3f( 10.0f, 10.0f, 10.0f); 
-                glVertex3f( 10.0f,-10.0f, 10.0f); 
-                glVertex3f( 10.0f,-10.0f,-10.0f);
-                glEnd();
-                
-            } catch (Exception e) {
-                
-            }
-        }
-    } 
-    
+	private void initGL() {
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+
+		GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/displayMode.getHeight(), 0.1f, 300.0f);
+		
+		glMatrixMode(GL_MODELVIEW);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	}
+
 }
