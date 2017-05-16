@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 /**
  * May 5, 2017
+ * 
  * @author Andrew Niklas
  *
  */
@@ -27,6 +28,7 @@ public class Chunk {
 	private int StartX, StartY, StartZ;
 	private Random r;
 	private int VBOTextureHandle;
+	@SuppressWarnings("unused")
 	private Texture texture;
 
 	public Chunk(int startX, int startY, int startZ) {
@@ -68,11 +70,14 @@ public class Chunk {
 		glPushMatrix();
 		glBindBuffer(GL_ARRAY_BUFFER, VBOVertexHandle);
 		glVertexPointer(3, GL_FLOAT, 0, 0L);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, VBOColorHandle);
 		glColorPointer(3, GL_FLOAT, 0, 0L);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, VBOTextureHandle);
 		glBindTexture(GL_TEXTURE_2D, 1);
 		glTexCoordPointer(2,GL_FLOAT,0,0L);
+		
 		glDrawArrays(GL_QUADS, 0, CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 24);
 		glPopMatrix();
 	}
@@ -95,7 +100,8 @@ public class Chunk {
 							(float) (startZ + z * CUBE_LENGTH)));
 					VertexColorData.put(
 							createCubeVertexCol(getCubeColor(Blocks[(int) x][(int) y][(int) z])));
-					VertexTextureData.put(createTexCube((float) 0, (float) 0, Blocks[(int)(x)][(int) (y)][(int) (z)]));
+					VertexTextureData.put(createTexCube((float) 0, (float) 0,
+							Blocks[(int) (x)][(int) (y)][(int) (z)]));
 				}
 			}
 		}
@@ -159,6 +165,47 @@ public class Chunk {
 				};
 	}
 
+	public static float[] createTexCube(float x, float y, Block block) {
+			float offset = (1024f / 16) / 1024f;
+	//		switch (block.GetID()) {
+	//			case 1:
+					return new float[] { //Grass Toped Dirt
+							// BOTTOM QUAD(DOWN=+Y)
+							x + offset * 3, y + offset * 10,
+							x + offset * 2, y + offset * 10,
+							x + offset * 2, y + offset * 9,
+							x + offset * 3, y + offset * 9,
+							// TOP!
+							x + offset * 3, y + offset * 1,
+							x + offset * 2, y + offset * 1,
+							x + offset * 2, y + offset * 0,
+							x + offset * 3, y + offset * 0,
+							// FRONT QUAD
+							x + offset * 3, y + offset * 0,
+							x + offset * 4, y + offset * 0,
+							x + offset * 4, y + offset * 1,
+							x + offset * 3, y + offset * 1,
+							// BACK QUAD
+							x + offset * 4, y + offset * 1,
+							x + offset * 3, y + offset * 1,
+							x + offset * 3, y + offset * 0,
+							x + offset * 4, y + offset * 0,
+							// LEFT QUAD
+							x + offset * 3, y + offset * 0,
+							x + offset * 4, y + offset * 0,
+							x + offset * 4, y + offset * 1,
+							x + offset * 3, y + offset * 1,
+							// RIGHT QUAD
+							x + offset * 3, y + offset * 0,
+							x + offset * 4, y + offset * 0,
+							x + offset * 4, y + offset * 1,
+							x + offset * 3, y + offset * 1 };
+					
+					
+	//		}
+	//		return null;
+		}
+
 	private float[] getCubeColor(Block block) {
 //		switch (block.GetID()) {
 //			case 1:
@@ -169,47 +216,6 @@ public class Chunk {
 //				return new float[] { 0, 0f, 1f };
 //		}
 		return new float[] { 1, 1, 1 };
-	}
-	
-	public static float[] createTexCube(float x, float y, Block block) {
-		float offset = (1024f / 16) / 1024f;
-//		switch (block.GetID()) {
-//			case 1:
-				return new float[] {
-						// BOTTOM QUAD(DOWN=+Y)
-						x + offset * 3, y + offset * 10,
-						x + offset * 2, y + offset * 10,
-						x + offset * 2, y + offset * 9,
-						x + offset * 3, y + offset * 9,
-						// TOP!
-						x + offset * 3, y + offset * 1,
-						x + offset * 2, y + offset * 1,
-						x + offset * 2, y + offset * 0,
-						x + offset * 3, y + offset * 0,
-						// FRONT QUAD
-						x + offset * 3, y + offset * 0,
-						x + offset * 4, y + offset * 0,
-						x + offset * 4, y + offset * 1,
-						x + offset * 3, y + offset * 1,
-						// BACK QUAD
-						x + offset * 4, y + offset * 1,
-						x + offset * 3, y + offset * 1,
-						x + offset * 3, y + offset * 0,
-						x + offset * 4, y + offset * 0,
-						// LEFT QUAD
-						x + offset * 3, y + offset * 0,
-						x + offset * 4, y + offset * 0,
-						x + offset * 4, y + offset * 1,
-						x + offset * 3, y + offset * 1,
-						// RIGHT QUAD
-						x + offset * 3, y + offset * 0,
-						x + offset * 4, y + offset * 0,
-						x + offset * 4, y + offset * 1,
-						x + offset * 3, y + offset * 1 };
-				
-				
-//		}
-//		return null;
 	}
 }
 

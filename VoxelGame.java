@@ -15,7 +15,7 @@ import org.lwjgl.util.glu.GLU;
  */
 public class VoxelGame {
 
-	private FPCameraController fp;
+	private FPCameraController fpc;
 	private DisplayMode displayMode;
 
 	/**
@@ -28,14 +28,14 @@ public class VoxelGame {
 	}
 
 	private void start() {
-		fp  = new FPCameraController(30, 30, 50);
 		try {
 			createWindow();
 			initGL();
-			fp.gameLoop();
+			fpc  = new FPCameraController(20, 20, 40);
+			fpc.gameLoop();
 		} catch (Exception e) {
 			System.out.println("ERROR!!!");
-			System.out.println(e.getMessage());
+//			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -68,6 +68,8 @@ public class VoxelGame {
 
 		GLU.gluPerspective(100.0f, aspect, 0.1f, 300.0f);
 		
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
 		glEnable(GL_DEPTH_TEST);
 		glMatrixMode(GL_MODELVIEW);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
