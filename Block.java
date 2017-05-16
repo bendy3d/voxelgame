@@ -13,6 +13,7 @@ public class Block {
 
 	private boolean IsActive;
 	private BlockType Type;
+	@SuppressWarnings("unused")
 	private float x, y, z;
 
 	public enum BlockType {

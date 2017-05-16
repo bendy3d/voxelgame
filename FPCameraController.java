@@ -152,7 +152,8 @@ public class FPCameraController {
 			camera.lookThrough();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			// you would draw your scene here.
-			render();
+//			render();
+			new Chunk(0, 0, 0).render();
 			// draw the buffer to the screen
 			Display.update();
 			Display.sync(60);
