@@ -16,7 +16,6 @@ import java.util.Random;
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.ResourceLoader;
-import java.util.Random;
 
 public class Chunk {
 
@@ -31,6 +30,7 @@ public class Chunk {
 	private int VBOTextureHandle;
 	@SuppressWarnings("unused")
 	private Texture texture;
+	private SimplexNoise simplex;
 
 	public Chunk(int startX, int startY, int startZ) {
 		
@@ -42,10 +42,12 @@ public class Chunk {
 			System.out.println(e.getMessage());
 		}
 		r = new Random();
+		simplex = new SimplexNoise(5, 0.2, r.nextInt(5));
 		Blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int y = 0; y < CHUNK_SIZE; y++) {
 				for (int z = 0; z < CHUNK_SIZE; z++) {
+//					double next = simplex.getNoise(x, y, z);
 					float next = r.nextFloat();
 					if (next > 0.7f) {
 						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
@@ -90,7 +92,7 @@ public class Chunk {
 
 	public void rebuildMesh(float startX, float startY, float startZ) {
 		Random dice = new Random();
-                SimplexNoise simplex = new SimplexNoise(30, 0.2f, dice.nextInt(9));
+                simplex = new SimplexNoise(30, 0.2f, dice.nextInt(9));
                 VBOColorHandle = glGenBuffers();
 		VBOVertexHandle = glGenBuffers();
 		VBOTextureHandle= glGenBuffers();

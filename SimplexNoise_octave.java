@@ -5,12 +5,7 @@
  */
 package voxelgame;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
-import javax.imageio.ImageIO;
 
 
 /*
@@ -30,6 +25,7 @@ import javax.imageio.ImageIO;
  *
  */
 
+@SuppressWarnings("unused")
 public class SimplexNoise_octave {  // Simplex noise in 2D, 3D and 4D
 
   public static int RANDOMSEED=0;
