@@ -1,0 +1,7 @@
+top / bottom / back
+	3	4
+	2	1
+
+front /left /right
+	1	2
+	4	3
