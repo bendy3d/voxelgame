@@ -22,11 +22,11 @@ public class FPCameraController {
 		// instantiate position Vector3f to the x y z params.
 		position = new Vector3f(x, y, z);
 		lPosition = new Vector3f(x, y, z);
-		lPosition.x = 0f;
-		lPosition.y = 15f;
+		lPosition.x = 20f;
+		lPosition.y = 25f;
 		lPosition.z = 0f;
 		
-		chunk = new Chunk(0, 0, 0);
+		chunk = new Chunk((int)x, (int)y, (int)z);
 	}
 
 	// increment the camera's current yaw rotation
@@ -94,6 +94,7 @@ public class FPCameraController {
 		glTranslatef(position.x, position.y, position.z);
 	}
 
+	@SuppressWarnings("unused")
 	public void gameLoop() {
 		FPCameraController camera = new FPCameraController(0, 0, 0);
 		float dx = 0.0f;
@@ -102,7 +103,7 @@ public class FPCameraController {
 		float lastTime = 0.0f; // when the last frame was
 		long time = 0;
 		float mouseSensitivity = 0.10f;
-		float movementSpeed = .33f;
+		float movementSpeed = .35f;
 		// hide the mouse
 		Mouse.setGrabbed(true);
 
@@ -148,6 +149,12 @@ public class FPCameraController {
 			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 				camera.moveDown(movementSpeed);
 			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+				System.out.println("pitch: " + camera.pitch);
+				System.out.println("yaw: " + camera.yaw);
+				System.out.println("look: " + camera.lPosition.toString());
+				System.out.println("Position: " + camera.position.toString());
+			}
 
 			// set the model view matrix back to the identity
 			glLoadIdentity();
@@ -163,7 +170,7 @@ public class FPCameraController {
 		}
 		Display.destroy();
 	}
-
+/*
 	private void render() {
 		try {
 
@@ -272,4 +279,5 @@ public class FPCameraController {
 		} catch (Exception e) {
 		}
 	}
+*/
 }

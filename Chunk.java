@@ -68,7 +68,7 @@ public class Chunk {
 		StartX = startX;
 		StartY = startY;
 		StartZ = startZ;
-		rebuildMesh(startX, startY, startZ);
+		rebuildMesh(StartX, StartY, StartZ);
 	}
 
 	public void render() {
@@ -365,7 +365,7 @@ public class Chunk {
 						x + offset * 2, y + offset * 1,
 						x + offset * 2, y + offset * 2,
 						x + offset * 1, y + offset * 2 };
-			default:
+			default: // Lava
 				return new float[] {
 						// TOP!
 						x + offset * 16, y + offset * 16,
@@ -401,14 +401,6 @@ public class Chunk {
 	}
 
 	private float[] getCubeColor(Block block) {
-//		switch (block.GetID()) {
-//			case 1:
-//				return new float[] { 0, 1, 0 };
-//			case 2:
-//				return new float[] { 1, 0.5f, 0 };
-//			case 3:
-//				return new float[] { 0, 0f, 1f };
-//		}
 		return new float[] { 1, 1, 1 };
 	}
 }

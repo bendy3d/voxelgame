@@ -31,7 +31,7 @@ public class VoxelGame {
 		try {
 			createWindow();
 			initGL();
-			fpc  = new FPCameraController(20, 20, 40);
+			fpc  = new FPCameraController(-9, -93, 7);
 			fpc.gameLoop();
 		} catch (Exception e) {
 			System.out.println("ERROR!!!");
