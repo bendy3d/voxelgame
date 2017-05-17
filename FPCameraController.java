@@ -1,4 +1,4 @@
-package groupVoxelGame;
+package voxelgame;
 
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.Sys;

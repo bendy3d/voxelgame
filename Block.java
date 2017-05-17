@@ -1,7 +1,7 @@
 /**
  * 
  */
-package groupVoxelGame;
+package voxelgame;
 
 /**
  * May 5, 2017

@@ -1,4 +1,4 @@
-package groupVoxelGame;
+package voxelgame;
 
 public class Vector3Float {
 

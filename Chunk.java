@@ -1,7 +1,7 @@
 /**
  * 
  */
-package groupVoxelGame;
+package voxelgame;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -16,6 +16,7 @@ import java.util.Random;
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.ResourceLoader;
+import java.util.Random;
 
 public class Chunk {
 
@@ -88,7 +89,9 @@ public class Chunk {
 	}
 
 	public void rebuildMesh(float startX, float startY, float startZ) {
-		VBOColorHandle = glGenBuffers();
+		Random dice = new Random();
+                SimplexNoise simplex = new SimplexNoise(30, 0.2f, dice.nextInt(9));
+                VBOColorHandle = glGenBuffers();
 		VBOVertexHandle = glGenBuffers();
 		VBOTextureHandle= glGenBuffers();
 		FloatBuffer VertexPositionData = BufferUtils
@@ -97,12 +100,24 @@ public class Chunk {
 				.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
 		FloatBuffer VertexTextureData = BufferUtils
 				.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+                
+                
 		for (float x = 0; x < CHUNK_SIZE; x += 1) {
 			for (float z = 0; z < CHUNK_SIZE; z += 1) {
+                                float height = 30.0f;
+                                for (float y = 0; y < CHUNK_SIZE; y++) {
+                                    int i=(int) (startX+x*((CHUNK_SIZE-startX)/15));
+                                    int j=(int) (startY+y*((CHUNK_SIZE-startY)/15));
+                                    int k=(int) (startZ+z*((CHUNK_SIZE-startZ)/15));
+                                    height = - (startY + (float) (11*simplex.getNoise(i,j,k)) * CUBE_LENGTH) - 65; 
+                                }
 				for (float y = 0; y < CHUNK_SIZE; y++) {
-					VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
+                                        
+					if (y < height) {
+                                            VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
 							(float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
 							(float) (startZ + z * CUBE_LENGTH)));
+                                        }
 					VertexColorData.put(
 							createCubeVertexCol(getCubeColor(Blocks[(int) x][(int) y][(int) z])));
 					VertexTextureData.put(createTexCube((float) 0, (float) 0,
