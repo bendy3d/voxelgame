@@ -56,7 +56,7 @@ public class VoxelGame {
 	
 
 	private void initGL() {
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.08f, 0.9f, 1.0f, 1.0f);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
