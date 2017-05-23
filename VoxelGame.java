@@ -2,6 +2,8 @@
 package voxelgame;
 
 import static org.lwjgl.opengl.GL11.*;
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 
@@ -13,6 +15,8 @@ public class VoxelGame {
 
 	private FPCameraController fpc;
 	private DisplayMode displayMode;
+	private FloatBuffer lightPosition;
+	private FloatBuffer whiteLight;
 
 	/**
 	 * @param args
@@ -70,9 +74,24 @@ public class VoxelGame {
 		glMatrixMode(GL_MODELVIEW);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		
+		initLightArrays();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+		glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);
+		glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
+		glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		
 		//for texturing
 		glEnable(GL_TEXTURE_2D);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
+	
+	private void initLightArrays() {
+		lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
+		whiteLight= BufferUtils.createFloatBuffer(4);
+		whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+		}
 
 }

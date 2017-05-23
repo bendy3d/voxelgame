@@ -1,7 +1,8 @@
 package voxelgame;
 
 import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.Sys;
+import java.nio.FloatBuffer;
+import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -61,6 +62,9 @@ public class FPCameraController {
 	public void strafeLeft(float distance) {
 		float xOffset = distance * (float) Math.sin(Math.toRadians(yaw - 90));
 		float zOffset = distance * (float) Math.cos(Math.toRadians(yaw - 90));
+		FloatBuffer lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(lPosition.x-=xOffset).put(lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 		position.x -= xOffset;
 		position.z += zOffset;
 	}
@@ -69,17 +73,26 @@ public class FPCameraController {
 	public void strafeRight(float distance) {
 		float xOffset = distance * (float) Math.sin(Math.toRadians(yaw + 90));
 		float zOffset = distance * (float) Math.cos(Math.toRadians(yaw + 90));
+		FloatBuffer lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(lPosition.x-=xOffset).put(lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 		position.x -= xOffset;
 		position.z += zOffset;
 	}
 
 	// moves the camera up relative to its current rotation (yaw)
 	public void moveUp(float distance) {
+		FloatBuffer lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(lPosition.x).put(lPosition.y -= distance).put(lPosition.z).put(1.0f).flip();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 		position.y -= distance;
 	}
 
 	// moves the camera down
 	public void moveDown(float distance) {
+		FloatBuffer lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(lPosition.x).put(lPosition.y += distance).put(lPosition.z).put(1.0f).flip();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 		position.y += distance;
 	}
 
@@ -92,6 +105,10 @@ public class FPCameraController {
 		glRotatef(yaw, 0.0f, 1.0f, 0.0f);
 		// translate to the position vector's location
 		glTranslatef(position.x, position.y, position.z);
+		
+		FloatBuffer lightPosition= BufferUtils.createFloatBuffer(4);
+		lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 	}
 
 	@SuppressWarnings("unused")
