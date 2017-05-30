@@ -48,20 +48,21 @@ public class Chunk {
 			for (int y = 0; y < CHUNK_SIZE; y++) {
 				for (int z = 0; z < CHUNK_SIZE; z++) {
 //					double next = simplex.getNoise(x, y, z);
-					float next = r.nextFloat();
-					if (next > 0.7f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
-					} else if (next > 0.5f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Sand);
-					} else if (next > 0.4f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
-					} else if (next > 0.3f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
-					} else if (next > 0.1f) {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
-					} else {
-						Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock);
-					}
+//                                    float next = r.nextFloat();
+//                                    if (next > 0.7f) {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Grass);
+//                                    } else if (next > 0.5f) {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Sand);
+//                                    } else if (next > 0.4f) {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Dirt);
+//                                    } else if (next > 0.3f) {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
+//                                    } else if (next > 0.1f) {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Water);
+//                                    } else {
+//                                        Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Bedrock);
+//                                    }
+                                    Blocks[x][y][z] = new Block(Block.BlockType.BlockType_Stone);
 				}
 			}
 		}
@@ -107,23 +108,37 @@ public class Chunk {
 		for (float x = 0; x < CHUNK_SIZE; x += 1) {
 			for (float z = 0; z < CHUNK_SIZE; z += 1) {
                                 float height = 30.0f;
-                                for (float y = 0; y < CHUNK_SIZE; y++) {
-                                    int i=(int) (startX+x*((CHUNK_SIZE-startX)/15));
-                                    int j=(int) (startY+y*((CHUNK_SIZE-startY)/15));
-                                    int k=(int) (startZ+z*((CHUNK_SIZE-startZ)/15));
-                                    height = - (startY + (float) (11*simplex.getNoise(i,j,k)) * CUBE_LENGTH) - 65; 
-                                }
+//                                for (float y = 0; y < CHUNK_SIZE; y++) {
+//                                    int i=(int) (startX+x*((CHUNK_SIZE-startX)/15));
+//                                    int j=(int) (startY+CHUNK_SIZE*((CHUNK_SIZE-startY)/15));
+//                                    int k=(int) (startZ+z*((CHUNK_SIZE-startZ)/15));
+//                                    height = - (startY + (float) (11*simplex.getNoise(i,j,k)) * CUBE_LENGTH) - 65; 
+//                                }
+                                int i=(int) (startX+x*((CHUNK_SIZE-startX)/15));
+                                int j=(int) (startY+(CHUNK_SIZE-1)*((CHUNK_SIZE-startY)/15));
+                                int k=(int) (startZ+z*((CHUNK_SIZE-startZ)/15));
+                                height = - (startY + (float) (11*simplex.getNoise(i,j,k)) * CUBE_LENGTH) - 65; 
 				for (float y = 0; y < CHUNK_SIZE; y++) {
-                                        
-					if (y < height) {
-                                            VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
-							(float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
-							(float) (startZ + z * CUBE_LENGTH)));
-                                        }
-					VertexColorData.put(
-							createCubeVertexCol(getCubeColor(Blocks[(int) x][(int) y][(int) z])));
-					VertexTextureData.put(createTexCube((float) 0, (float) 0,
-							Blocks[(int) (x)][(int) (y)][(int) (z)]));
+                                    if (y == 0) {
+                                        Blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.BlockType_Bedrock);
+                                    }
+                                    if (((int) y >= (int) height - 1) || y == 29) {
+                                        Blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.BlockType_Grass);
+                                    }
+                                    
+                                    if (y <= height) {
+                                        VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
+                                                (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
+                                                (float) (startZ + z * CUBE_LENGTH)));
+                                        VertexTextureData.put(createTexCube((float) 0, (float) 0,
+                                                    Blocks[(int) (x)][(int) (y)][(int) (z)]));
+                                        VertexColorData.put(
+                                                    createCubeVertexCol(getCubeColor(Blocks[(int) x][(int) y][(int) z])));
+                                    } 
+                                    
+                                    
+                                    
+                                    
 				}
 			}
 		}
