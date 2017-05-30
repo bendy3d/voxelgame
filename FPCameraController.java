@@ -16,7 +16,6 @@ public class FPCameraController {
 	private float yaw = 0.0f;
 	// the rotation around the X axis of the camera
 	private float pitch = 0.0f;
-	private Vector3Float me;
 	private Chunk chunk;
 
 	public FPCameraController(float x, float y, float z) {
