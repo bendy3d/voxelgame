@@ -25,7 +25,6 @@ import java.util.Random;
  *
  */
 
-@SuppressWarnings("unused")
 public class SimplexNoise_octave {  // Simplex noise in 2D, 3D and 4D
 
   public static int RANDOMSEED=0;
